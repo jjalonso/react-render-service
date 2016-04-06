@@ -1,7 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 
-import renderer from './react'
+import renderer from './renderer'
 
 
 let arg = process.argv[2]
@@ -31,10 +31,11 @@ function main() {
   let app = express()
   app.use(bodyParser.json())
   app.post('/', (req, res) => {
-    let data = JSON.parse(req.body)
-    let compModule = data.module
-    let state = data.state
+    // console.log(req.body)
+    let render = renderer(req.body.compPath, req.body.reducerPath)
+    res.json(render)
   })
+
   app.listen(argParsed, function () {
     console.log(`
       **********************************************
