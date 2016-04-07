@@ -23,4 +23,4 @@ class PageA extends React.Component {
   }
 }
 
-export default PageA;
+export default PageA

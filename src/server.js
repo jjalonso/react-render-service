@@ -1,8 +1,7 @@
+
 import express from 'express'
 import bodyParser from 'body-parser'
-
 import renderer from './renderer'
-
 
 let arg = process.argv[2]
 let argParsed = Number.parseInt(arg)
@@ -31,7 +30,6 @@ function main() {
   let app = express()
   app.use(bodyParser.json())
   app.post('/', (req, res) => {
-    // console.log(req.body)
     let render = renderer(req.body.compPath, req.body.reducerPath)
     res.json(render)
   })
