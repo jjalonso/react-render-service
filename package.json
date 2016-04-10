@@ -6,7 +6,7 @@
   "scripts": {
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register",
     "dev:watch": "./node_modules/.bin/babel --watch src -d dist/",
-    "dev:server": "./node_modules/.bin/nodemon dist/server.js 8080"
+    "dev:server": "./node_modules/.bin/nodemon dist/server.js ../symlink-reactnet/components/routes.js"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-redux": "^4.4.1",
-    "redux": "^3.3.1"
+    "redux": "^3.3.1",
+    "swig": "^1.4.2"
   }
 }

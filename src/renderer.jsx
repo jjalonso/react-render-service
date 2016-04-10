@@ -2,19 +2,21 @@ import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import requireDir from 'require-dir'
 
-function renderer (compPath, reducerPath) {
-  let Component = require(compPath).default
-  let reducer = require(reducerPath).default
-  let store = createStore(reducer)
+
+function renderComponent(Component, reducer, initialState) {
+  console.log(Component, reducer, initialState)
+  let store = createStore(reducer, initialState)
   let html = renderToString(
     <Provider store={store}>
       <Component />
     </Provider>
   )
-  return { html: html, state: store.getState() }
+  return {
+    html: html,
+    state: store.getState()
+  }
 }
 
 
-export { renderer as default }
+export { renderComponent as default }

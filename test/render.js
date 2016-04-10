@@ -1,4 +1,3 @@
-'use strict'
 
 import assert from 'assert'
 // let assert = require('assert');
