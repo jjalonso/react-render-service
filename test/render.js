@@ -1,25 +1,25 @@
-
 import assert from 'assert'
+
+import renderComponent from '../src/renderer.jsx'
+import MockComponent from './mock/MockComponent.jsx'
+import mockReducer from './mock/mockReducer.js'
+
+console.log('XXX', mockReducer)
+
 // let assert = require('assert');
 
 describe('Renderer', function() {
-  let renderer
-  let MockComponent
-  let mockReducer
 
-  before(function() {
-    // runs before all tests in this block
-    renderer = require('../src/renderer.jsx').default
-    MockComponent = require('./mock/MockComponent.jsx').default
-    mockReducer = require('./mock/mockReducer.js').default
-  });
+  // before(function() {
+  //   // runs before all tests in this block
+  //   // renderer = require('../src/renderer.jsx')
+  //   // MockComponent = require('./mock/MockComponent.jsx')
+  //   // mockReducer = require('./mock/mockReducer.js')
+  // });
 
-  it('(renderer) html is a string and state is a Object definition', function () {
-    let render = renderer(
-      '../test/mock/MockComponent.jsx',
-      '../test/mock/mockReducer.js'
-    )
-    assert.equal(typeof render.html, 'string')
+  it('(renderComponent) markup is a string and state is a Object definition', function () {
+    let render = renderComponent(MockComponent, mockReducer, { name: 'React' })
+    assert.equal(typeof render.markup, 'string')
     assert.equal(typeof render.state, 'object')
   });
 

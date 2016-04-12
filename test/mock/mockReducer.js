@@ -1,5 +1,5 @@
 let mockReducer = function (state = {}, action) {
-  return state;
+  return state
 }
 
 export default mockReducer
