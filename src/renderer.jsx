@@ -5,15 +5,14 @@ import { Provider } from 'react-redux'
 
 
 function renderComponent(Component, reducer, initialState) {
-  console.log(Component, reducer, initialState)
   let store = createStore(reducer, initialState)
-  let html = renderToString(
+  let markup = renderToString(
     <Provider store={store}>
       <Component />
     </Provider>
   )
   return {
-    html: html,
+    markup,
     state: store.getState()
   }
 }

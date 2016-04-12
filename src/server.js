@@ -1,6 +1,5 @@
 
 import express from 'express'
-import swig from 'swig'
 import bodyParser from 'body-parser'
 
 import renderComponent from './renderer'
@@ -34,7 +33,6 @@ else {
   main()
 }
 
-
 function main() {
   // Create app
   let app = express()
@@ -42,13 +40,11 @@ function main() {
   // render http end-point
   app.post('/', (req, res) => {
     let modules = ModuleResolver.resolvePath(req.query.path)
+    if (modules === null) {
+      res.status(404).send('Path not found in routes')
+    }
     let rendered = renderComponent(modules.component, modules.reducer, req.body)
-    let page = swig.renderFile('./src/template.html', {
-        renderedComponent: rendered.html,
-        initialState: JSON.stringify(rendered.state),
-
-    });
-    res.send(page)
+    res.send(rendered)
   })
 
   let port = process.argv[3] || 8080
