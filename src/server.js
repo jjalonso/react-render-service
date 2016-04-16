@@ -3,7 +3,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 import renderComponent from './renderer'
-import { ModuleResolver } from '../symlink-reactnet/client-bundle.js'
+import { routes, reducers } from '../symlink-reactnet/client-bundle.js'
 
 
 let arg = process.argv[2]
@@ -39,11 +39,12 @@ function main() {
   app.use(bodyParser.json())
   // render http end-point
   app.post('/', (req, res) => {
-    let modules = ModuleResolver.resolvePath(req.query.path)
-    if (modules === null) {
-      res.status(404).send('Path not found in routes')
-    }
-    let rendered = renderComponent(modules.component, modules.reducer, req.body)
+    let rendered = renderComponent(
+      req.query.path,
+      routes,
+      reducers,
+      req.body
+    )
     res.send(rendered)
   })
 
