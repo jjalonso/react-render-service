@@ -8,19 +8,19 @@ import mockRoutes from './mock/mockRoutes.jsx'
 
 
 describe('Renderer', function() {
-  let renderProps
+  let resolved
 
-  it('(resolveRoute) resolve a url return code 200 and and get render props', function() {
-    let resolved = resolveRoute('/', mockRoutes)
-    assert.equal(resolved.code, 200)
-    assert.equal(typeof resolved.data, 'object')
-  })
+  before(function() {
+    resolved = resolveRoute('/', mockRoutes)
+  });
 
-  it('(renderComponent) markup is a string and state is a Object definition', function () {
-    let renderProps = resolveRoute('/', mockRoutes).data
-    let render = renderComponent(renderProps, mockReducer, { name: 'React' })
+  it('markup is a string and state is a Object definition', function () {
+    // let renderProps = resolveRoute('/', mockRoutes).data
+    let render = renderComponent(resolved.data, mockReducer, { name: 'React' })
     assert.equal(typeof render.markup, 'string')
     assert.equal(typeof render.state, 'object')
   });
+
+
 
 });
