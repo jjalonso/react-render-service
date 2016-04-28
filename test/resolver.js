@@ -9,15 +9,21 @@ import mockRoutes from './mock/mockRoutes.jsx'
 
 describe('Resolver', function() {
 
-  it('resolve a url return code 200 and and get render props', function() {
+  it('resolving "/" return code 200 and data is an object', function() {
     let resolved = resolveRoute('/', mockRoutes)
     assert.equal(resolved.code, 200)
     assert.equal(typeof resolved.data, 'object')
   })
 
-  it('resolve a non-existent url return code 404', function() {
-    let resolved = resolveRoute('/something-really-weird-like-bob', mockRoutes)
+  it('resolving "/this-doesnt-exist" return code 404', function() {
+    let resolved = resolveRoute('/this-doesnt-exist', mockRoutes)
     assert.equal(resolved.code, 404)
+  })
+
+  it('resolving "/redirect-me" return code 302 and data is "/"', function() {
+    let resolved = resolveRoute('/redirect-me', mockRoutes)
+    assert.equal(resolved.code, 302)
+    assert.equal(resolved.data, '/')
   })
 
 });
