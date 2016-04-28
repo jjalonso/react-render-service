@@ -3,6 +3,8 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 import renderComponent from './renderer'
+import resolveRoute from './resolver'
+
 import { routes, reducers } from '../symlink-reactnet/client-bundle.js'
 
 
@@ -38,14 +40,21 @@ function main() {
   let app = express()
   app.use(bodyParser.json())
   // render http end-point
-  app.post('/', (req, res) => {
-    let rendered = renderComponent(
-      req.query.path,
-      routes,
-      reducers,
-      req.body
-    )
-    res.send(rendered)
+  app.use((req, res) => {
+    let resolved = resolveRoute(req.url, routes)
+    switch (resolved.code) {
+      case 200:
+        let rendered = renderComponent(resolved.data, reducers, req.body)
+        rendered.code = resolved.code
+        res.send(rendered)
+        break;
+      case 302:
+        res.redirect(resolved.code, resolved.data)
+        break;
+      default:
+        // res.code = resolved.code;
+        res.send({code: resolved.code})
+    }
   })
 
   let port = process.argv[3] || 8080

@@ -1,45 +1,43 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { match, RouterContext } from 'react-router'
+import { RouterContext } from 'react-router'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
 
 
-function renderComponent(url, routes, reducers, context) {
+
+function renderComponent(renderProps, reducers, context) {
   let response = {}
-  console.log(context)
-  match({ routes, location: url }, (error, redirectLocation, renderProps) => {
-    if (error) {
-      response.code = 500
-    } else if (redirectLocation) {
-      res.redirect(302, redirectLocation.pathname + redirectLocation.search)
-    } else if (renderProps) {
-      let store = createStore(reducers, context)
-      response.state = store.getState()
-      response.code = 200
-      response.markup = renderToString(
-        <Provider store={store}>
-          <RouterContext {...renderProps} />
-        </Provider>
-      )
-    } else {
-      response.code = 404
-    }
-  })
+  let store = createStore(reducers, context, applyMiddleware(thunk))
+  response.state = store.getState()
+  response.markup = renderToString(
+    <Provider store={store}>
+      <RouterContext {...renderProps} />
+    </Provider>
+  )
   return response
 
-
-
-  // let store = createStore(reducer, initialState)
-  // let markup = renderToString(
-  //   <Provider store={store}>
-  //     <Component />
-  //   </Provider>
-  // )
-  // return {
-  //   markup,
-  //   state: store.getState()
-  // }
+  // let response = {}
+  // match({ routes, location: url }, (error, redirectLocation, renderProps) => {
+  //   if (error) {
+  //     response.code = 500
+  //   } else if (redirectLocation) {
+  //     res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+  //   } else if (renderProps) {
+  //     let store = createStore(reducers, context, applyMiddleware(thunk))
+  //     response.state = store.getState()
+  //     response.code = 200
+  //     response.markup = renderToString(
+  //       <Provider store={store}>
+  //         <RouterContext {...renderProps} />
+  //       </Provider>
+  //     )
+  //   } else {
+  //     response.code = 404
+  //   }
+  // })
+  // return response
 }
 
 
