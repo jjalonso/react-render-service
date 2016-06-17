@@ -5,8 +5,8 @@
   "main": "src",
   "scripts": {
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register",
-    "dev:watch": "./node_modules/.bin/babel --watch src -d dist/",
-    "dev:server": "./node_modules/.bin/nodemon dist/server.js ../symlink-reactnet/components/routes.js"
+    "watch": "./node_modules/.bin/babel --watch src -d dist/",
+    "start": "./node_modules/.bin/nodemon dist/server.js ../symlink-reactnet/components/routes.js"
   },
   "repository": {
     "type": "git",
