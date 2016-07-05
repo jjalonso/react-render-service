@@ -5,8 +5,9 @@ import bodyParser from 'body-parser'
 import renderComponent from './renderer'
 import resolveRoute from './resolver'
 
-import { routes, reducers } from '../symlink-reactnet/client-bundle.js'
+import { routes, reducers } from '../../react-client/dist/client-bundle.js'
 
+console.log('ROUTES ES', routes)
 
 let arg = process.argv[2]
 // let argParsed = Number.parseInt(arg2)
@@ -41,18 +42,17 @@ function main() {
   app.use(bodyParser.json())
   // render http end-point
   app.use((req, res) => {
-    let resolved = resolveRoute(req.url, routes)
+    let resolved = resolveRoute(req.query.c, routes)
     switch (resolved.code) {
       case 200:
+        // Resolving success
         let rendered = renderComponent(resolved.data, reducers, req.body)
         rendered.code = resolved.code
         res.send(rendered)
         break;
-      case 302:
-        res.redirect(resolved.code, resolved.data)
-        break;
       default:
-        // res.code = resolved.code;
+        // Other error
+        res.code = resolved.code;
         res.send({code: resolved.code})
     }
   })
