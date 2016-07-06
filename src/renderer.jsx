@@ -9,10 +9,11 @@ function renderComponent(Component, reducers, context) {
   let response = {}
   let store = createStore(reducers, context, applyMiddleware(thunk))
   response.state = store.getState()
+
   response.markup = renderToString(
-    {/*}<Provider store={store}>*/
+    <Provider store={store}>
       <Component />
-    {/*}</Provider>*/}
+    </Provider>
   )
   return response
 

@@ -3,9 +3,8 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 import renderComponent from './renderer'
-import resolveRoute from './resolver'
 
-import { routes, reducers } from '../../react-client/dist/client-bundle.js'
+import { routes, reducers, resolver } from '../../react-client/dist/client-bundle.js'
 
 console.log('ROUTES ES', routes)
 
@@ -42,7 +41,9 @@ function main() {
   app.use(bodyParser.json())
   // render http end-point
   app.use((req, res) => {
-    let resolved = resolveRoute(req.query.c, routes)
+    let resolved = resolver(req.query.c, routes)
+    console.log('resolved', resolved);
+
     switch (resolved.code) {
       case 200:
         // Resolving success
